@@ -19,6 +19,12 @@ class Curl implements HttpInterface
     ) {
         $request = $this->prepareRequest($url, $urlParameters, $headers);
 
+
+file_put_contents('/home/admin/web/api.klublr.com/public_html/app/Http/Controllers/logs.txt', '$urlParameters'.print_r($urlParameters, true), FILE_APPEND | LOCK_EX);
+file_put_contents('/home/admin/web/api.klublr.com/public_html/app/Http/Controllers/logs.txt', '$postParameters'.print_r($postParameters, true), FILE_APPEND | LOCK_EX);
+file_put_contents('/home/admin/web/api.klublr.com/public_html/app/Http/Controllers/logs.txt', '$headers'.print_r($headers, true), FILE_APPEND | LOCK_EX);
+
+
         curl_setopt($request, CURLOPT_POST, count($postParameters));
         if ($asJSON === true) {
             curl_setopt($request, CURLOPT_POSTFIELDS, json_encode($postParameters));
@@ -80,6 +86,9 @@ class Curl implements HttpInterface
     {
         $body = curl_exec($request);
         $info = curl_getinfo($request);
+
+file_put_contents('/home/admin/web/api.klublr.com/public_html/app/Http/Controllers/logs.txt', 'BODY'.print_r($body, true), FILE_APPEND | LOCK_EX);
+file_put_contents('/home/admin/web/api.klublr.com/public_html/app/Http/Controllers/logs.txt', 'INFO'.print_r($info, true), FILE_APPEND | LOCK_EX);
 
         curl_close($request);
 

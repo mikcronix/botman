@@ -531,10 +531,11 @@ class BotMan
      * @param string|array $recipients
      * @param DriverInterface|null $driver
      * @param array $additionalParameters
+     * @param null|string $messageType
      * @return Response
      * @throws BotManException
      */
-    public function say($message, $recipients, $driver = null, $additionalParameters = [])
+    public function say($message, $recipients, $driver = null, $additionalParameters = [], $messageType = null)
     {
         if ($driver === null && $this->driver === null) {
             throw new BotManException('The current driver can\'t be NULL');
@@ -553,7 +554,7 @@ class BotMan
 
         foreach ($recipients as $recipient) {
             $this->message = new IncomingMessage('', $recipient, '');
-            $response = $this->reply($message, $additionalParameters);
+            $response = $this->reply($message, $additionalParameters, $messageType);
         }
 
         $this->message = $previousMessage;
@@ -629,14 +630,15 @@ class BotMan
     /**
      * @param string|Question $message
      * @param array $additionalParameters
+     * @param null|string $messageType
      * @return mixed
      */
-    public function reply($message, $additionalParameters = [])
+    public function reply($message, $additionalParameters = [], $messageType = null)
     {
         $this->outgoingMessage = \is_string($message) ? OutgoingMessage::create($message) : $message;
 
         return $this->sendPayload($this->getDriver()->buildServicePayload($this->outgoingMessage, $this->message,
-            $additionalParameters));
+            $additionalParameters, $messageType));
     }
 
     /**

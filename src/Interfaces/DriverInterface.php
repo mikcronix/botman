@@ -43,9 +43,10 @@ interface DriverInterface
      * @param string|\BotMan\BotMan\Messages\Outgoing\Question $message
      * @param IncomingMessage $matchingMessage
      * @param array $additionalParameters
+     * @param null|string $messageType
      * @return $this
      */
-    public function buildServicePayload($message, $matchingMessage, $additionalParameters = []);
+    public function buildServicePayload($message, $matchingMessage, $additionalParameters = [], $messageType = null);
 
     /**
      * @param mixed $payload
